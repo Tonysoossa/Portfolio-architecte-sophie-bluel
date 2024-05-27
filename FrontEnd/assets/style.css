@@ -362,3 +362,17 @@ footer nav ul {
 #login-page section {
   padding-bottom: 17.2rem;
 }
+
+.log-error {
+  display: none;
+  color: red;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+.log-error-mdp {
+  display: none;
+  color: red;
+  font-weight: 600;
+  padding-top: 10px;
+}
