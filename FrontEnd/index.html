@@ -37,6 +37,7 @@
             </li>
             <li>
               <a href="login.html" id="login"> login </a>
+              <a id="logout"> logout </a>
             </li>
             <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
           </ul>
@@ -72,7 +73,11 @@
             <i class="fa-regular fa-pen-to-square edit-icon"></i>
             modifier
           </button>
-          <div class="categories"></div>
+          <div id="modal" class="edit-modal">
+            <button class="close-modal" type="submit">X</button>
+            <p>Galerie photo</p>
+            <div class="categories"></div>
+          </div>
           <div class="gallery"></div>
         </section>
         <section id="contact">

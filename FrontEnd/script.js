@@ -1,50 +1,59 @@
-import { checkLogin } from "./utils.js";
+import {
+  addingClass,
+  checkLogin,
+  displayWorks,
+  getCatFromApi,
+  getWorksFromApi,
+  removeClassFromEl,
+} from "./utils.js";
 
-const API_ENDPOINT = "http://localhost:5678/api";
 const headerBar = document.querySelector(".header-bar");
 const editBtn = document.querySelector(".edit-btn");
 const categories = document.querySelector(".categories");
 const logLink = document.getElementById("login");
+const logOut = document.getElementById("logout");
 
 //Images display
 
 const getImg = async () => {
-  const res = await fetch(`${API_ENDPOINT}/works`);
-  const data = await res.json();
+  const imgData = await getWorksFromApi();
 
-  data.forEach((el) => {
-    const figureImg = document.createElement("figure");
-    const displayImg = document.createElement("img");
-    const imgTitle = document.createElement("figcaption");
-
-    document.querySelector(".gallery").appendChild(figureImg);
-
-    figureImg.appendChild(displayImg);
-    figureImg.appendChild(imgTitle);
-
-    displayImg.alt = el.title;
-    displayImg.src = el.imageUrl;
-    imgTitle.innerHTML = el.title;
-  });
+  displayWorks(imgData);
 };
 getImg();
 
 // Categories :
 
 const getCategories = async () => {
-  const res = await fetch(`${API_ENDPOINT}/categories`);
-  const data = await res.json();
-
+  const data = await getCatFromApi();
+  const dataWorks = await getWorksFromApi();
   const btnAll = document.createElement("button");
-  categories.appendChild(btnAll).classList.add("categories-btn");
-  btnAll.style.backgroundColor = "#1d6154";
-  btnAll.style.color = "white";
   btnAll.innerHTML = "Tous";
+  categories.appendChild(btnAll).classList.add("categories-btn");
   data.forEach((el) => {
     const displayBtn = document.createElement("button");
     categories.appendChild(displayBtn);
     displayBtn.classList.add("categories-btn");
     displayBtn.innerHTML = el.name;
+    displayBtn.dataset.categoryId = el.id;
+  });
+  const categoriesBtn = document.querySelectorAll(".categories-btn");
+  btnAll.classList.add("categories-btn-active");
+  categoriesBtn.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      removeClassFromEl(categoriesBtn, "categories-btn-active");
+      addingClass(e, "categories-btn-active");
+      const selected = +e.target.dataset.categoryId;
+      console.log(selected);
+      const filter = dataWorks.filter((work) => {
+        return work.categoryId === selected;
+      });
+      if (!selected) {
+        displayWorks(dataWorks);
+        return;
+      }
+      displayWorks(filter);
+    });
   });
 };
 getCategories();
@@ -53,19 +62,24 @@ getCategories();
 
 const enableAdmin = () => {
   if (!checkLogin()) return;
-  console.log("connected !!!!!!!!!!!");
   headerBar.style.display = "flex";
   editBtn.style.display = "flex";
   categories.style.display = "none";
-  const logoutTxt = document.createTextNode("logout");
-  logLink.innerText = "";
-  logLink.appendChild(logoutTxt);
-  logLink.addEventListener("click", (e) => {
+  logLink.style.display = "none";
+  logOut.style.display = "block";
+  logOut.addEventListener("click", (e) => {
     localStorage.removeItem("token");
+    logLink.style.display = "flex";
+    logOut.style.display = "none";
+    editBtn.style.display = "none";
+    headerBar.style.display = "none";
+    categories.style.display = "flex";
   });
 };
 enableAdmin();
 
-// Works
+// Modals code
 
-//
+
+
+
