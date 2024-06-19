@@ -1,7 +1,8 @@
 const API_ENDPOINT = "http://localhost:5678/api";
+const token = localStorage.getItem("token");
 
 export const checkLogin = () => {
-  return Boolean(localStorage.getItem("token"));
+  return Boolean(token);
 };
 
 export const removeClassFromEl = (elements, classname) => {
@@ -38,5 +39,35 @@ export const displayWorks = (works) => {
     displayImg.alt = el.title;
     displayImg.src = el.imageUrl;
     imgTitle.innerHTML = el.title;
+  });
+};
+
+export const displayModalWorks = (works) => {
+  works.forEach((el) => {
+    const figureImg = document.createElement("figure");
+    const displayImg = document.createElement("img");
+    const deleteBtn = document.createElement("button");
+    const deleteIcon = document.createElement("i");
+    const worksBox = document.querySelector(".works-box");
+
+    figureImg.classList.add("modal-figures");
+
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.appendChild(deleteIcon);
+
+    deleteIcon.classList.add("fa-solid", "fa-trash-can", "delete-icon");
+
+    figureImg.appendChild(deleteBtn);
+
+    worksBox.appendChild(figureImg);
+    figureImg.appendChild(displayImg);
+
+    displayImg.alt = el.title;
+    displayImg.src = el.imageUrl;
+
+    worksBox.classList.add("works-box");
+    displayImg.classList.add("works-box-img");
+    deleteBtn.classList.add("delete-box");
+    deleteIcon.classList.add("delete-icon");
   });
 };

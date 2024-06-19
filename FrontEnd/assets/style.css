@@ -431,33 +431,194 @@ footer nav ul {
 
 /* Modals */
 
+.body-shadow {
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.519);
+  opacity: 0.9;
+}
+
 .edit-modal {
-  display: flex;
+  display: none;
+  flex-direction: column;
   position: absolute;
   left: calc(50% - 20rem);
-  justify-content: center;
- border-radius: 2.5%;
+  align-items: center;
+  border-radius: 10px;
   width: 40rem;
-  height: 40rem;
+  height: auto;
   top: -2rem;
   background-color: white;
+  padding-bottom: 3rem;
 }
 
 .close-modal {
   position: absolute;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 25px;
   background-color: white;
   border: none;
   right: 20px;
   top: 20px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
-.edit-modal p {
+.edit-modal-upper-text {
   font-size: 26px;
   line-height: 30.5px;
   font-weight: 400;
-  font-family: "Work-Sans";
-  padding-top: 40px;
+  font-style: "Work-Sans";
+  padding-top: 3rem;
+  padding-bottom: 2rem;
 }
+
+.modal-figures {
+  position: relative;
+}
+
+.works-box {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  gap: 10px;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  max-width: 28rem;
+}
+
+.works-box-img {
+  width: 5rem;
+  padding-bottom: 1rem;
+}
+
+.delete-box {
+  display: flex;
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2.5px;
+  background-color: black;
+  height: 18px;
+  width: 22px;
+}
+
+.delete-icon {
+  font-size: 11px;
+  color: white;
+}
+
+.add-work-btn {
+  position: relative;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  background-color: #1d6154;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Syne";
+  border-radius: 90px;
+  border: none;
+  width: 16rem;
+  height: 2.5rem;
+  margin-top: 4rem;
+}
+
+.add-work-btn::after {
+  cursor: default;
+  content: "";
+  position: absolute;
+  width: 28.2rem;
+  top: -2rem;
+  right: -38%;
+  height: 1.5px;
+  background-color: #b3b3b3;
+}
+
+.save-work-btn {
+  display: none;
+  position: relative;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  background-color: #a7a7a7;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Syne";
+  border-radius: 90px;
+  border: none;
+  width: 16rem;
+  height: 2.5rem;
+  margin-top: 4rem;
+}
+
+.save-work-btn::after {
+  cursor: default;
+  content: "";
+  position: absolute;
+  width: 28.2rem;
+  top: -2rem;
+  right: -38%;
+  height: 1.5px;
+  background-color: #b3b3b3;
+}
+
+/* Add works Modals */
+
+.goBackBtn {
+  position: absolute;
+  left: 1.8rem;
+  top: 1.8rem;
+  display: flex;
+  cursor: pointer;
+  color: #000000;
+  font-size: 20px;
+}
+
+.add-photo-div {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+  width: 28.2rem;
+  background-color: #e8f1f6;
+}
+
+.add-photo-div i {
+  font-size: 5rem;
+  color: #b9c5cc;
+}
+.add-photo-div input {
+  border: none;
+  background-color: #cbd6dc;
+  color: #306685;
+  height: 2rem;
+}
+
+.add-work-form {
+  display: none;
+  flex-direction: column;
+  width: 28.2rem;
+}
+
+.add-work-form input {
+  height: 50px;
+  width: 100%;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.add-work-form label {
+  margin: 2em 0 1em 0;
+}
+
+.add-categories-div {
+  display: flex;
+  width: 100%;
+} 
