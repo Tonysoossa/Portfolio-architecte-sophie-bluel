@@ -84,25 +84,35 @@
             <div id="modal" class="edit-modal">
               <button class="close-modal">x</button>
               <p class="edit-modal-upper-text">Galerie photo</p>
+
               <div class="works-box"></div>
+
               <div class="add-photo-div">
                 <i class="fa-regular fa-image"></i>
-                <input
-                  type="submit"
-                  value="+ Ajouter photo"
-                  class="add-img-btn"
-                />
+                <label for="upload">
+                  <div class="add-img-btn">+ Ajouter photo</div>
+                  <input
+                    id="upload"
+                    type="file"
+                    class="input-hide"
+                    accept="image/jpg, image/png"
+                  />
+                </label>
                 <p>jpg, png : 4mo max</p>
               </div>
               <form class="add-work-form" action="#" method="post">
                 <label for="title">Titre</label>
                 <input type="text" name="title" id="title" />
                 <label for="Catégorie">Catégorie</label>
-                <input type="text" name="Catégorie" id="Catégorie" />
+
+                <select
+                  name="Catégorie"
+                  id="Catégorie"
+                  class="categorie-choices-box"
+                >
+                  <option disabled selected id="blank-option"></option>
+                </select>
               </form>
-                <div class="add-categories-div">
-                  <i class="fa-solid fa-chevron-down"></i>
-                </div>
               <button class="add-work-btn">Ajouter une photo</button>
             </div>
 

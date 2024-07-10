@@ -1,6 +1,19 @@
 const API_ENDPOINT = "http://localhost:5678/api";
 const token = localStorage.getItem("token");
 
+const body = document.querySelector(".body");
+const editModal = document.querySelector(".edit-modal");
+const workBox = document.querySelector(".works-box");
+const addWorkBtn = document.querySelector(".add-work-btn");
+const editModalUpperText = document.querySelector(".edit-modal-upper-text");
+const addWorkDiv = document.querySelector(".add-photo-div");
+const workForm = document.querySelector(".add-work-form");
+const headerBar = document.querySelector(".header-bar");
+const editBtn = document.querySelector(".edit-btn");
+const categories = document.querySelector(".categories");
+const logLink = document.getElementById("login");
+const logOut = document.getElementById("logout");
+
 export const checkLogin = () => {
   return Boolean(token);
 };
@@ -30,19 +43,18 @@ export const displayWorks = (works) => {
     const figureImg = document.createElement("figure");
     const displayImg = document.createElement("img");
     const imgTitle = document.createElement("figcaption");
-
     document.querySelector(".gallery").appendChild(figureImg);
-
     figureImg.appendChild(displayImg);
     figureImg.appendChild(imgTitle);
-
     displayImg.alt = el.title;
     displayImg.src = el.imageUrl;
     imgTitle.innerHTML = el.title;
+    figureImg.id = el.id;
   });
 };
 
 export const displayModalWorks = (works) => {
+
   works.forEach((el) => {
     const figureImg = document.createElement("figure");
     const displayImg = document.createElement("img");
@@ -51,23 +63,93 @@ export const displayModalWorks = (works) => {
     const worksBox = document.querySelector(".works-box");
 
     figureImg.classList.add("modal-figures");
-
     deleteBtn.classList.add("delete-btn");
     deleteBtn.appendChild(deleteIcon);
-
     deleteIcon.classList.add("fa-solid", "fa-trash-can", "delete-icon");
-
     figureImg.appendChild(deleteBtn);
-
     worksBox.appendChild(figureImg);
     figureImg.appendChild(displayImg);
-
     displayImg.alt = el.title;
     displayImg.src = el.imageUrl;
-
     worksBox.classList.add("works-box");
     displayImg.classList.add("works-box-img");
     deleteBtn.classList.add("delete-box");
     deleteIcon.classList.add("delete-icon");
+
+    deleteBtn.addEventListener("click", () => {
+    
+
+      // if status 200 then :
+
+      const deletedElId = el.id;
+      const gallery = document.querySelector(".gallery");
+      const galleryImg = gallery.children;
+
+      for (let i = 0; i < galleryImg.length; i++) {
+        if (+galleryImg[i].id === deletedElId) {
+          fetch(`${API_ENDPOINT}/works/` + deletedElId);
+          worksBox.removeChild(figureImg);
+          gallery.removeChild(galleryImg[i]);
+          console.log(galleryImg[i]);
+        }
+      }
+    });
   });
+};
+
+const deleteWork = async (workId) => {
+  try {
+    const res = await fetch(`${API_ENDPOINT}/works/${workId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem(token)}`,
+      },
+    });
+    if (!res.ok)
+      throw new Error(
+        `Une erreur c'est produite lors d'une tentative de suppresion du travaux`
+      );
+    globalWorks = null; // Réinitialise le cache des travaux
+    await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
+    await displayFilteredWorks();
+  } catch (error) {
+    console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
+  }
+};
+
+deleteWork();
+
+export const logOutFunc = () => {
+  localStorage.removeItem("token");
+  logLink.style.display = "flex";
+  logOut.style.display = "none";
+  editBtn.style.display = "none";
+  headerBar.style.display = "none";
+  categories.style.display = "flex";
+};
+
+export const addWorkFunc = () => {
+  workBox.style.display = "none";
+  editModalUpperText.textContent = "Ajout photo";
+  addWorkDiv.style.display = "flex";
+  addWorkBtn.style.display = " none";
+  workForm.style.display = "flex";
+};
+
+export const goBackFunc = () => {
+  workBox.style.display = "flex";
+  editModalUpperText.textContent = "Galerie photo";
+  addWorkBtn.style.display = "flex";
+  addWorkDiv.style.display = "none";
+  workForm.style.display = "none";
+};
+
+export const closeModalFunc = () => {
+  workBox.style.display = "flex";
+  editModal.style.display = "none";
+  addWorkBtn.style.display = " flex";
+  addWorkDiv.style.display = "none";
+  workForm.style.display = "none";
+  body.classList.remove("body-shadow");
+  editModalUpperText.textContent = "Galerie photo";
 };

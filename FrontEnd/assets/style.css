@@ -535,7 +535,7 @@ footer nav ul {
   width: 28.2rem;
   top: -2rem;
   right: -38%;
-  height: 1.5px;
+  height: 1px;
   background-color: #b3b3b3;
 }
 
@@ -564,7 +564,7 @@ footer nav ul {
   width: 28.2rem;
   top: -2rem;
   right: -38%;
-  height: 1.5px;
+  height: 1px;
   background-color: #b3b3b3;
 }
 
@@ -588,17 +588,30 @@ footer nav ul {
   height: 15rem;
   width: 28.2rem;
   background-color: #e8f1f6;
+  gap: 1rem;
+}
+
+.input-hide {
+  display: none;
 }
 
 .add-photo-div i {
   font-size: 5rem;
   color: #b9c5cc;
 }
-.add-photo-div input {
+
+.add-img-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
+  cursor: pointer;
+  border-radius: 90px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   background-color: #cbd6dc;
   color: #306685;
-  height: 2rem;
+  height: 2.2rem;
+  width: 9rem;
 }
 
 .add-work-form {
@@ -616,9 +629,28 @@ footer nav ul {
 }
 .add-work-form label {
   margin: 2em 0 1em 0;
+  color: #3d3d3d;
 }
 
-.add-categories-div {
+.add-categories-div i {
+  position: absolute;
+  right: 15px;
+  top: -32.5px;
+  cursor: pointer;
+  color: #6c6c6c;
+}
+
+.categorie-choices-box {
   display: flex;
-  width: 100%;
-} 
+  background-color: white;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  height: 50px;
+  margin-right: -5px;
+  font-size: 1rem;
+}
+
+.categorie-choices {
+  font-size: 1rem;
+}

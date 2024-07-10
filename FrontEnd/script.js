@@ -1,10 +1,14 @@
 import {
+  addWorkFunc,
   addingClass,
   checkLogin,
+  closeModalFunc,
   displayModalWorks,
   displayWorks,
   getCatFromApi,
   getWorksFromApi,
+  goBackFunc,
+  logOutFunc,
   removeClassFromEl,
 } from "./utils.js";
 
@@ -16,11 +20,12 @@ const logLink = document.getElementById("login");
 const logOut = document.getElementById("logout");
 const editModal = document.querySelector(".edit-modal");
 const workBox = document.querySelector(".works-box");
-const editModalUpperText = document.querySelector(".edit-modal-upper-text");
-const addWorkBtn = document.querySelector(".add-work-btn");
-const addWorkDiv = document.querySelector(".add-photo-div");
 const goBackBtn = document.createElement("i");
 const saveWorkBtn = document.createElement("button");
+const addWorkBtn = document.querySelector(".add-work-btn");
+
+const editModalUpperText = document.querySelector(".edit-modal-upper-text");
+const addWorkDiv = document.querySelector(".add-photo-div");
 const workForm = document.querySelector(".add-work-form");
 
 //Images display
@@ -75,14 +80,7 @@ const enableAdmin = () => {
   categories.style.display = "none";
   logLink.style.display = "none";
   logOut.style.display = "block";
-  logOut.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    logLink.style.display = "flex";
-    logOut.style.display = "none";
-    editBtn.style.display = "none";
-    headerBar.style.display = "none";
-    categories.style.display = "flex";
-  });
+  logOut.addEventListener("click", () => logOutFunc());
 };
 enableAdmin();
 
@@ -90,59 +88,55 @@ enableAdmin();
 
 const editing = async () => {
   const dataWork = await getWorksFromApi();
-
   const editBtn = document.querySelector(".edit-btn");
   const closeModal = document.querySelector(".close-modal");
-
   editBtn.addEventListener("click", () => {
     workBox.innerHTML = "";
     editModal.style.display = "flex";
     body.classList.add("body-shadow");
     displayModalWorks(dataWork);
   });
-
   closeModal.addEventListener("click", () => {
-    workBox.style.display = "flex";
-    editModal.style.display = "none";
+    closeModalFunc();
+
     goBackBtn.style.display = "none";
     saveWorkBtn.style.display = " none";
-    addWorkBtn.style.display = " flex";
-    addWorkDiv.style.display = "none";
-    workForm.style.display = "none";
-    body.classList.remove("body-shadow");
   });
 };
-
 editing();
 
-const addWorks = async () => {
-  const dataWork = await getWorksFromApi();
-
+const addWorks = () => {
   editModal.appendChild(saveWorkBtn);
   saveWorkBtn.classList.add("save-work-btn");
   saveWorkBtn.textContent = "Valider";
-
   addWorkBtn.addEventListener("click", () => {
-    workBox.style.display = "none";
-    editModalUpperText.textContent = "Ajout photo";
-    editModal.appendChild(goBackBtn);
+    addWorkFunc();
     goBackBtn.classList.add("goBackBtn", "fa-solid", "fa-arrow-left");
+    saveWorkBtn.style.display = "flex";
+    editModal.appendChild(goBackBtn);
     goBackBtn.style.display = "flex";
-    addWorkDiv.style.display = "flex";
-    addWorkBtn.style.display = " none";
-    saveWorkBtn.style.display = " flex";
-    workForm.style.display = " flex";
   });
 
   goBackBtn.addEventListener("click", () => {
-    workBox.style.display = "flex";
-    editModalUpperText.textContent = "Galerie photo";
+    goBackFunc();
     goBackBtn.style.display = "none";
-    addWorkBtn.style.display = "flex";
-    addWorkDiv.style.display = "none";
     saveWorkBtn.style.display = "none";
-    workForm.style.display = "none";
   });
 };
 
 addWorks();
+
+const selectCategorie = async () => {
+  const data = await getCatFromApi();
+  const choiceBox = document.querySelector(".categorie-choices-box");
+  data.forEach((el) => {
+    const option = document.createElement("option");
+    option.classList.add("categorie-choices");
+    choiceBox.appendChild(option);
+    option.innerHTML = el.name;
+    option.value = el.id;
+  });
+};
+selectCategorie();
+
+
