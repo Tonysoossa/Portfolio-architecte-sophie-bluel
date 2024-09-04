@@ -632,6 +632,11 @@ footer nav ul {
   color: #3d3d3d;
 }
 
+#previewImage {
+  display: none;
+  width: 10.3rem;
+}
+
 .add-categories-div i {
   position: absolute;
   right: 15px;

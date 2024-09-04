@@ -14,16 +14,13 @@ const categories = document.querySelector(".categories");
 const logLink = document.getElementById("login");
 const logOut = document.getElementById("logout");
 
-export const checkLogin = () => {
-  return Boolean(token);
-};
+export const checkLogin = () => Boolean(token);
 
 export const removeClassFromEl = (elements, classname) => {
   elements.forEach((el) => el.classList.remove(classname));
 };
 
-export const addingClass = (event, classname) =>
-  event.target.classList.add(classname);
+export const addingClass = (event, classname) => event.target.classList.add(classname);
 
 export const getWorksFromApi = async () => {
   const res = await fetch(`${API_ENDPOINT}/works`);
@@ -37,24 +34,21 @@ export const getCatFromApi = async () => {
   return data;
 };
 
-export const displayWorks = (works) => {
-  document.querySelector(".gallery").innerHTML = "";
-  works.forEach((el) => {
-    const figureImg = document.createElement("figure");
-    const displayImg = document.createElement("img");
-    const imgTitle = document.createElement("figcaption");
-    document.querySelector(".gallery").appendChild(figureImg);
-    figureImg.appendChild(displayImg);
-    figureImg.appendChild(imgTitle);
-    displayImg.alt = el.title;
-    displayImg.src = el.imageUrl;
-    imgTitle.innerHTML = el.title;
-    figureImg.id = el.id;
-  });
+
+export const logOutFunc = () => {
+  localStorage.removeItem("token");
+  logLink.style.display = "flex";
+  logOut.style.display = "none";
+  editBtn.style.display = "none";
+  headerBar.style.display = "none";
+  categories.style.display = "flex";
 };
 
-export const displayModalWorks = (works) => {
 
+// NOTE Modal
+
+
+export const displayModalWorks = (works) => {
   works.forEach((el) => {
     const figureImg = document.createElement("figure");
     const displayImg = document.createElement("img");
@@ -76,10 +70,10 @@ export const displayModalWorks = (works) => {
     deleteBtn.classList.add("delete-box");
     deleteIcon.classList.add("delete-icon");
 
-    deleteBtn.addEventListener("click", () => {
-    
-
+    deleteBtn.addEventListener("click", (workId) => {
       // if status 200 then :
+
+      //FIX need res.statut check 200
 
       const deletedElId = el.id;
       const gallery = document.querySelector(".gallery");
@@ -97,36 +91,47 @@ export const displayModalWorks = (works) => {
   });
 };
 
-const deleteWork = async (workId) => {
-  try {
-    const res = await fetch(`${API_ENDPOINT}/works/${workId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem(token)}`,
-      },
-    });
-    if (!res.ok)
-      throw new Error(
-        `Une erreur c'est produite lors d'une tentative de suppresion du travaux`
-      );
-    globalWorks = null; // Réinitialise le cache des travaux
-    await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
-    await displayFilteredWorks();
-  } catch (error) {
-    console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
-  }
+export const displayWorks = (works) => {
+  document.querySelector(".gallery").innerHTML = "";
+  works.forEach((el) => {
+    const figureImg = document.createElement("figure");
+    const displayImg = document.createElement("img");
+    const imgTitle = document.createElement("figcaption");
+    document.querySelector(".gallery").appendChild(figureImg);
+    figureImg.appendChild(displayImg);
+    figureImg.appendChild(imgTitle);
+    displayImg.alt = el.title;
+    displayImg.src = el.imageUrl;
+    imgTitle.innerHTML = el.title;
+    figureImg.id = el.id;
+  });
 };
 
-deleteWork();
 
-export const logOutFunc = () => {
-  localStorage.removeItem("token");
-  logLink.style.display = "flex";
-  logOut.style.display = "none";
-  editBtn.style.display = "none";
-  headerBar.style.display = "none";
-  categories.style.display = "flex";
-};
+// const deleteWork = async (workId) => {
+//   try {
+//     const res = await fetch(`${API_ENDPOINT}/works/${workId}`, {
+//       method: "DELETE",
+//       headers: {
+//         Authorization: `Bearer ${sessionStorage.getItem(token)}`,
+//       },
+//     });
+//     if (!res.ok)
+//       throw new Error(
+//     `Une erreur c'est produite lors d'une tentative de suppresion du travaux`
+//   );
+//   globalWorks = null; // Réinitialise le cache des travaux
+//   await displayWorksInModal(); // Met à jour l'affichage sans rechargement de la page
+//   await displayFilteredWorks();
+// } catch (error) {
+//   console.error("Erreur lors de la suppression:", error); // Log en cas d'erreur
+// }
+// };
+
+// deleteWork();
+
+
+
 
 export const addWorkFunc = () => {
   workBox.style.display = "none";
@@ -153,3 +158,13 @@ export const closeModalFunc = () => {
   body.classList.remove("body-shadow");
   editModalUpperText.textContent = "Galerie photo";
 };
+
+
+// NOTE token check
+
+const tokenExist = localStorage.getItem('token');
+if (tokenExist) {
+    console.log('Token exists:', token);
+} else {
+    console.log('No token found');
+}

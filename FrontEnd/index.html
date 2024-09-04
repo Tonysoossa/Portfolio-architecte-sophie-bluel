@@ -18,6 +18,7 @@
     ></script>
     <script defer type="module" src="./utils.js"></script>
     <script defer type="module" src="./script.js"></script>
+    <script defer type="module" src="./modal.js"></script>
   </head>
   <body>
     <div class="body">
@@ -89,18 +90,20 @@
 
               <div class="add-photo-div">
                 <i class="fa-regular fa-image"></i>
-                <label for="upload">
+                <label for="file">
                   <div class="add-img-btn">+ Ajouter photo</div>
-                  <input
-                    id="upload"
-                    type="file"
-                    class="input-hide"
-                    accept="image/jpg, image/png"
-                  />
                 </label>
                 <p>jpg, png : 4mo max</p>
+
+                <img id="previewImage" src="#" alt="Aperçu de l'image" />
               </div>
               <form class="add-work-form" action="#" method="post">
+                <input
+                  id="file"
+                  type="file"
+                  class="input-hide"
+                  accept="image/jpg, image/png"
+                />
                 <label for="title">Titre</label>
                 <input type="text" name="title" id="title" />
                 <label for="Catégorie">Catégorie</label>
@@ -112,6 +115,7 @@
                 >
                   <option disabled selected id="blank-option"></option>
                 </select>
+                <button class="save-work-btn" type="submit"></button>
               </form>
               <button class="add-work-btn">Ajouter une photo</button>
             </div>
