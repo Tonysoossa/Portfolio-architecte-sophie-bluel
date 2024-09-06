@@ -555,6 +555,7 @@ footer nav ul {
   width: 16rem;
   height: 2.5rem;
   margin-top: 4rem;
+  margin-left: 6.3rem;
 }
 
 .save-work-btn::after {
@@ -568,6 +569,10 @@ footer nav ul {
   background-color: #b3b3b3;
 }
 
+.save-work-btn-completed {
+  background-color: #1d6154;
+}
+
 /* Add works Modals */
 
 .goBackBtn {
@@ -578,6 +583,8 @@ footer nav ul {
   cursor: pointer;
   color: #000000;
   font-size: 20px;
+  background-color: transparent;
+  border: none;
 }
 
 .add-photo-div {
@@ -585,10 +592,8 @@ footer nav ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 15rem;
-  width: 28.2rem;
+  height: 13.5rem;
   background-color: #e8f1f6;
-  gap: 1rem;
 }
 
 .input-hide {
@@ -610,8 +615,9 @@ footer nav ul {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   background-color: #cbd6dc;
   color: #306685;
-  height: 2.2rem;
-  width: 9rem;
+  height: 2.8rem;
+  width: 11rem;
+  margin-top: -1.5rem;
 }
 
 .add-work-form {
@@ -629,12 +635,15 @@ footer nav ul {
 }
 .add-work-form label {
   margin: 2em 0 1em 0;
-  color: #3d3d3d;
+  font-size: 18px;
 }
 
 #previewImage {
   display: none;
-  width: 10.3rem;
+  position: absolute;
+  width: 11rem;
+  height: 13.5rem;
+  object-fit: cover;
 }
 
 .add-categories-div i {

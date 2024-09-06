@@ -79,50 +79,75 @@
 
             <button class="edit-btn">
               <i class="fa-regular fa-pen-to-square edit-icon"></i>
-              modifier
+              Modifier
             </button>
 
-            <div id="modal" class="edit-modal">
+            <div id="modal" class="edit-modal" style="display: none">
               <button class="close-modal">x</button>
               <p class="edit-modal-upper-text">Galerie photo</p>
 
               <div class="works-box"></div>
+              <!-- Formulaire pour ajouter une nouvelle oeuvre -->
+              <form
+                class="add-work-form"
+                id="addWorkForm"
+                style="display: none"
+              >
+                <div class="add-photo-div">
+                  <input
+                    id="file"
+                    type="file"
+                    name="image"
+                    class="input-hide"
+                    accept="image/jpg, image/png"
+                    required
+                  />
+                  <i class="fa-regular fa-image"></i>
+                  <label for="file">
+                    <div class="add-img-btn">+ Ajouter photo</div>
+                  </label>
+                  <p>jpg, png : 4mo max</p>
+                  <img id="previewImage" src="#" alt="Aperçu de l'image" />
+                </div>
 
-              <div class="add-photo-div">
-                <i class="fa-regular fa-image"></i>
-                <label for="file">
-                  <div class="add-img-btn">+ Ajouter photo</div>
-                </label>
-                <p>jpg, png : 4mo max</p>
-
-                <img id="previewImage" src="#" alt="Aperçu de l'image" />
-              </div>
-              <form class="add-work-form" action="#" method="post">
-                <input
-                  id="file"
-                  type="file"
-                  class="input-hide"
-                  accept="image/jpg, image/png"
-                />
                 <label for="title">Titre</label>
-                <input type="text" name="title" id="title" />
-                <label for="Catégorie">Catégorie</label>
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="Titre"
+                  required
+                />
 
+                <label for="category">Catégorie</label>
                 <select
-                  name="Catégorie"
-                  id="Catégorie"
+                  name="category"
+                  id="category"
                   class="categorie-choices-box"
+                  required
                 >
-                  <option disabled selected id="blank-option"></option>
+                  <option value="" disabled selected>
+                    Choisir une catégorie
+                  </option>
+                  <!-- Les catégories seront ajoutées dynamiquement ici -->
                 </select>
-                <button class="save-work-btn" type="submit"></button>
+
+                <button
+                  class="save-work-btn save-work-btn-completed"
+                  type="submit"
+                >
+                  Valider
+                </button>
               </form>
+
               <button class="add-work-btn">Ajouter une photo</button>
+              <button class="goBackBtn"></button>
             </div>
 
             <div class="categories"></div>
             <div class="gallery"></div>
           </section>
+
           <section id="contact">
             <h2>Contact</h2>
             <p>Vous avez un projet ? Discutons-en !</p>
