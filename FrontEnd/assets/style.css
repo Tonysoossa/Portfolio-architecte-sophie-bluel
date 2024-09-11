@@ -466,7 +466,6 @@ footer nav ul {
   font-size: 26px;
   line-height: 30.5px;
   font-weight: 400;
-  font-style: "Work-Sans";
   padding-top: 3rem;
   padding-bottom: 2rem;
 }
@@ -601,6 +600,7 @@ footer nav ul {
 .add-photo-div i {
   font-size: 5rem;
   color: #b9c5cc;
+  margin-bottom: -1.5rem;
 }
 
 .add-img-btn {
@@ -615,7 +615,6 @@ footer nav ul {
   color: #306685;
   height: 2.8rem;
   width: 11rem;
-  margin-top: -1.5rem;
 }
 
 .add-work-form {

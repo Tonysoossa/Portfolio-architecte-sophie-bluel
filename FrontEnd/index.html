@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <title>Sophie Bluel - Architecte d'intérieur</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
@@ -16,9 +14,9 @@
       src="https://kit.fontawesome.com/c660848571.js"
       crossorigin="anonymous"
     ></script>
-    <script defer type="module" src="./utils.js"></script>
-    <script defer type="module" src="./script.js"></script>
-    <script defer type="module" src="./modal.js"></script>
+    <script defer src="./utils.js"></script>
+    <script defer src="./script.js"></script>
+    <script defer src="./modal.js"></script>
   </head>
   <body>
     <div class="body">
@@ -33,7 +31,7 @@
           <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
           <nav>
             <ul>
-              <li><a>projets</a></li>
+              <li><a href="#projet">projets</a></li>
               <li>
                 <a href="#contact">contact</a>
               </li>
@@ -103,9 +101,7 @@
                     required
                   />
                   <i class="fa-regular fa-image"></i>
-                  <label for="file">
-                    <div class="add-img-btn">+ Ajouter photo</div>
-                  </label>
+                  <label for="file" class="add-img-btn">+ Ajouter photo</label>
                   <p>jpg, png : 4mo max</p>
                   <img id="previewImage" src="#" alt="Aperçu de l'image" />
                 </div>

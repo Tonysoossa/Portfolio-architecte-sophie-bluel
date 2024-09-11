@@ -5,8 +5,6 @@ import { displayWorks } from "./script.js";
 
 const API_ENDPOINT = "http://localhost:5678/api";
 const token = localStorage.getItem("token");
-// const dataWork = await getWorksFromApi();
-// const data = await getCatFromApi();
 
 //  NOTE Btns selectors NOTE
 
@@ -36,14 +34,21 @@ const fileInput = document.querySelector("#file");
 const titleInput = document.querySelector("#title");
 const categorySelect = document.querySelector("#category");
 
-
-
 // NOTE General editing fonction NOTE
 
 const editing = async () => {
   const dataWork = await getWorksFromApi();
 
-  editBtn.addEventListener("click", () => {
+  // NOTE any click out of modal will close it NOTE
+  document.addEventListener("click", (e) => {
+    if (!editModal.contains(e.target)) {
+      closeModalFunc();
+    }
+  });
+
+  editBtn.addEventListener("click", (e) => {
+    // NOTE stopProp to prevent modal closing NOTE
+    e.stopPropagation();
     workBox.innerHTML = "";
     editModal.style.display = "flex";
     body.classList.add("body-shadow");
@@ -72,14 +77,6 @@ const goBackFunc = () => {
 };
 
 const closeModalFunc = () => {
-  const editModal = document.querySelector(".edit-modal");
-  const addWorkBtn = document.querySelector(".add-work-btn");
-  const addWorkDiv = document.querySelector(".add-photo-div");
-  const workForm = document.querySelector(".add-work-form");
-  const body = document.querySelector("body");
-  const editModalUpperText = document.querySelector(".edit-modal-upper-text");
-  const goBackBtn = document.querySelector(".goBackBtn");
-
   workForm.reset(); // Réinitialise le formulaire
   previewImage.remove();
   editModal.style.display = "none";
@@ -219,25 +216,15 @@ const generateCategories = async () => {
   });
 };
 
-// NOTE Check if form is completed to change ave-work-btn color NOTE
+// NOTE Check if form is completed changing saveWorkBtn color NOTE
 
 const checkFormCompletion = () => {
-  console.log("trigger");
-  // Vérifier si un fichier est sélectionné NOTE
   const isImageSelected = fileInput.files.length > 0;
-  // Vérifier si un titre est entré NOTE
   const isTitleEntered = titleInput.value.trim() !== "";
-  // Vérifier si une catégorie est sélectionnée NOTE
   const isCategorySelected = categorySelect.value !== "";
-  //  'done' dans la console if completed NOTE
-
-  console.log("Fichier sélectionné:", isImageSelected);
-  console.log("Titre entré:", isTitleEntered);
-  console.log("Catégorie sélectionnée:", isCategorySelected);
 
   if (isImageSelected && isTitleEntered && isCategorySelected) {
     saveWorkBtn.classList.add("save-work-btn-completed");
-    console.log("done");
   } else {
     saveWorkBtn.classList.remove("save-work-btn-completed");
   }
