@@ -434,9 +434,7 @@ footer nav ul {
 .body-shadow {
   position: absolute;
   width: 100%;
-  z-index: -1;
-  background-color: rgba(0, 0, 0, 0.519);
-  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .edit-modal {
