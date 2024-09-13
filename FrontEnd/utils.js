@@ -9,8 +9,13 @@ export const removeClassFromEl = (elements, classname) => {
   elements.forEach((el) => el.classList.remove(classname));
 };
 
+export const removeClassFromSingleEl = (singleEl, classname) => {
+  singleEl.classList.remove(classname);
+};
+
 export const addingClass = (event, classname) =>
   event.target.classList.add(classname);
+
 
 // NOTE retrieving data from api NOTE
 

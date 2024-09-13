@@ -1,4 +1,8 @@
-import { getCatFromApi, getWorksFromApi } from "./utils.js";
+import {
+  getCatFromApi,
+  getWorksFromApi,
+  removeClassFromSingleEl,
+} from "./utils.js";
 import { displayWorks } from "./script.js";
 
 //  NOTE Data relation NOTE
@@ -73,7 +77,7 @@ const goBackFunc = () => {
   addWorkBtn.style.display = "flex";
   addWorkDiv.style.display = "none";
   workForm.style.display = "none";
-  saveWorkBtn.classList.remove("save-work-btn-completed");
+  removeClassFromSingleEl(saveWorkBtn, "save-work-btn-completed");
 };
 
 const closeModalFunc = () => {
@@ -83,10 +87,10 @@ const closeModalFunc = () => {
   addWorkBtn.style.display = "flex";
   addWorkDiv.style.display = "none";
   workForm.style.display = "none";
-  body.classList.remove("body-shadow");
+  removeClassFromSingleEl(body, "body-shadow");
   editModalUpperText.textContent = "Galerie photo";
   goBackBtn.style.display = "none";
-  saveWorkBtn.classList.remove("save-work-btn-completed");
+  removeClassFromSingleEl(saveWorkBtn, "save-work-btn-completed");
 };
 
 // NOTE Add new works NOTE
@@ -226,7 +230,7 @@ const checkFormCompletion = () => {
   if (isImageSelected && isTitleEntered && isCategorySelected) {
     saveWorkBtn.classList.add("save-work-btn-completed");
   } else {
-    saveWorkBtn.classList.remove("save-work-btn-completed");
+    removeClassFromSingleEl(saveWorkBtn, "save-work-btn-completed");
   }
 };
 
