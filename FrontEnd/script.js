@@ -23,16 +23,17 @@ const choiceBox = document.querySelector(".categorie-choices-box");
 const gallery = document.querySelector(".gallery");
 
 // NOTE Gestion des œuvres NOTE
+
 export const displayWorks = (works) => {
-  gallery.innerHTML = "";
   works.forEach((el) => {
     const figureImg = document.createElement("figure");
     const displayImg = document.createElement("img");
     const imgTitle = document.createElement("figcaption");
-    figureImg.id = el.id;
+    figureImg.id = `work-${el.id}`; // Ajout d'un identifiant unique
     displayImg.alt = el.title;
     displayImg.src = el.imageUrl;
     imgTitle.innerHTML = el.title;
+
     figureImg.appendChild(displayImg);
     figureImg.appendChild(imgTitle);
     gallery.appendChild(figureImg);

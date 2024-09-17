@@ -1,7 +1,6 @@
 //  NOTE Data relation NOTE
 
 const API_ENDPOINT = "http://localhost:5678/api";
-const token = localStorage.getItem("token");
 
 // NOTE Class manipulation NOTE
 
@@ -30,11 +29,3 @@ export const getCatFromApi = async () => {
   const data = await res.json();
   return data;
 };
-
-// NOTE token check NOTE
-
-if (token) {
-  console.log("Token exists:", token);
-} else {
-  console.log("No token found");
-}

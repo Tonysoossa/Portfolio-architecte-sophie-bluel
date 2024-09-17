@@ -3,43 +3,36 @@ import {
   getWorksFromApi,
   removeClassFromSingleEl,
 } from "./utils.js";
-import { displayWorks } from "./script.js";
 
-//  NOTE Data relation NOTE
-
+// NOTE Data relation NOTE
 const API_ENDPOINT = "http://localhost:5678/api";
 const token = localStorage.getItem("token");
 
-//  NOTE Btns selectors NOTE
-
+// NOTE Btns selectors NOTE
 const saveWorkBtn = document.querySelector(".save-work-btn");
 const addWorkBtn = document.querySelector(".add-work-btn");
 const goBackBtn = document.querySelector(".goBackBtn");
 const editBtn = document.querySelector(".edit-btn");
 const closeModalButton = document.querySelector(".close-modal");
 
-//  NOTE Global selectors NOTE
-
+// NOTE Global selectors NOTE
 const editModal = document.querySelector(".edit-modal");
 const editModalUpperText = document.querySelector(".edit-modal-upper-text");
 const body = document.querySelector("body");
-// const images = document.querySelectorAll("img"); FIX
 
-//  NOTE works selectors NOTE
+// NOTE works selectors NOTE
 const workBox = document.querySelector(".works-box");
 const worksBox = document.querySelector(".works-box");
 const workForm = document.querySelector(".add-work-form");
 const addWorkDiv = document.querySelector(".add-photo-div");
 
-//  NOTE formulaire ids selector NOTE
-
+// NOTE formulaire ids selector NOTE
 const previewImage = document.querySelector("#previewImage");
 const fileInput = document.querySelector("#file");
 const titleInput = document.querySelector("#title");
 const categorySelect = document.querySelector("#category");
 
 // NOTE General editing fonction NOTE
-
 const editing = async () => {
   const dataWork = await getWorksFromApi();
 
@@ -51,7 +44,6 @@ const editing = async () => {
   });
 
   editBtn.addEventListener("click", (e) => {
-    // NOTE stopProp to prevent modal closing NOTE
     e.stopPropagation();
     workBox.innerHTML = "";
     editModal.style.display = "flex";
@@ -66,12 +58,7 @@ const editing = async () => {
 };
 
 const goBackFunc = () => {
-  const editModalUpperText = document.querySelector(".edit-modal-upper-text");
-  const addWorkBtn = document.querySelector(".add-work-btn");
-  const addWorkDiv = document.querySelector(".add-photo-div");
-  const workForm = document.querySelector(".add-work-form");
-
-  workForm.reset(); // Réinitialise le formulaire
+  workForm.reset();
   previewImage.style.display = "none";
   editModalUpperText.textContent = "Galerie photo";
   addWorkBtn.style.display = "flex";
@@ -81,8 +68,8 @@ const goBackFunc = () => {
 };
 
 const closeModalFunc = () => {
-  workForm.reset(); // Réinitialise le formulaire
-  previewImage.remove();
+  workForm.reset();
+  previewImage.style.display = "none";
   editModal.style.display = "none";
   addWorkBtn.style.display = "flex";
   addWorkDiv.style.display = "none";
@@ -94,7 +81,6 @@ const closeModalFunc = () => {
 };
 
 // NOTE Add new works NOTE
-
 const addWorkFunc = () => {
   editModal.style.display = "flex";
   addWorkDiv.style.display = "flex";
@@ -102,10 +88,8 @@ const addWorkFunc = () => {
   addWorkBtn.style.display = "none";
   editModalUpperText.textContent = "Ajout photo";
 
-  // Préchargerement des cat dans le form générer par l'api NOTE
   generateCategories();
 
-  // Prévisualiser l'image NOTE
   fileInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -119,19 +103,13 @@ const addWorkFunc = () => {
     checkFormCompletion();
   });
 
-  titleInput.addEventListener("keyup", () => {
-    checkFormCompletion();
-  });
-
-  categorySelect.addEventListener("change", () => {
-    checkFormCompletion();
-  });
+  titleInput.addEventListener("keyup", checkFormCompletion);
+  categorySelect.addEventListener("change", checkFormCompletion);
 
   workForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     checkFormCompletion();
     const formData = new FormData(workForm);
-    const dataWork = await getWorksFromApi();
 
     try {
       const res = await fetch(`${API_ENDPOINT}/works`, {
@@ -144,8 +122,27 @@ const addWorkFunc = () => {
 
       if (!res.ok) throw new Error("Erreur lors de l'ajout de la photo");
 
-      closeModalFunc();
-      displayWorks(dataWork); // mise a jour des oeuvre NOTE
+      const newWork = await res.json();
+
+      // Ajouter le nouveau travail à la galerie principale
+      const gallery = document.querySelector(".gallery");
+      const figureImg = document.createElement("figure");
+      const displayImg = document.createElement("img");
+      const imgTitle = document.createElement("figcaption");
+
+      figureImg.id = newWork.id;
+      displayImg.alt = newWork.title;
+      displayImg.src = newWork.imageUrl;
+      imgTitle.textContent = newWork.title;
+
+      figureImg.appendChild(displayImg);
+      figureImg.appendChild(imgTitle);
+      gallery.appendChild(figureImg);
+
+      // Ajouter le nouveau travail à la modale d'édition
+      displayModalWorks([newWork]);
+
+      closeModalFunc(); // Ferme la modale après ajout
     } catch (error) {
       console.error("Erreur lors de l'ajout de la photo:", error);
     }
@@ -170,7 +167,6 @@ const addWorks = () => {
 };
 
 // NOTE display works and generates categories NOTE
-
 const displayModalWorks = (works) => {
   works.forEach((el) => {
     const figureImg = document.createElement("figure");
@@ -179,6 +175,7 @@ const displayModalWorks = (works) => {
     const deleteIcon = document.createElement("i");
 
     figureImg.classList.add("modal-figures");
+    figureImg.dataset.id = el.id;
     deleteBtn.classList.add("delete-box");
     deleteIcon.classList.add("fa-solid", "fa-trash-can", "delete-icon");
 
@@ -192,17 +189,30 @@ const displayModalWorks = (works) => {
     displayImg.classList.add("works-box-img");
 
     deleteBtn.addEventListener("click", async () => {
-      const res = await fetch(`${API_ENDPOINT}/works/` + el.id, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const res = await fetch(`${API_ENDPOINT}/works/${el.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (res.status === 200) {
-        worksBox.removeChild(figureImg);
-      } else {
-        console.error("Erreur lors de la suppression");
+        if (res.ok) {
+          // Supprimer l'élément de la modale
+          worksBox.removeChild(figureImg);
+
+          // Supprimer l'élément de la galerie principale
+          const mainGalleryItem = document.querySelector(
+            `.gallery figure[id="${el.id}"]`
+          );
+          if (mainGalleryItem) {
+            mainGalleryItem.remove();
+          }
+        } else {
+          throw new Error("Erreur lors de la suppression");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la suppression:", error);
       }
     });
   });
@@ -221,7 +231,6 @@ const generateCategories = async () => {
 };
 
 // NOTE Check if form is completed changing saveWorkBtn color NOTE
-
 const checkFormCompletion = () => {
   const isImageSelected = fileInput.files.length > 0;
   const isTitleEntered = titleInput.value.trim() !== "";
@@ -235,6 +244,5 @@ const checkFormCompletion = () => {
 };
 
 // NOTE Function calls NOTE
-
 addWorks();
 editing();
