@@ -4,6 +4,8 @@ import {
   removeClassFromSingleEl,
 } from "./utils.js";
 
+import { displayWorks } from "./script.js";
+
 // NOTE Data relation NOTE
 const API_ENDPOINT = "http://localhost:5678/api";
 const token = localStorage.getItem("token");
@@ -188,7 +190,8 @@ const displayModalWorks = (works) => {
     displayImg.src = el.imageUrl;
     displayImg.classList.add("works-box-img");
 
-    deleteBtn.addEventListener("click", async () => {
+    deleteBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
       try {
         const res = await fetch(`${API_ENDPOINT}/works/${el.id}`, {
           method: "DELETE",
@@ -208,6 +211,8 @@ const displayModalWorks = (works) => {
           if (mainGalleryItem) {
             mainGalleryItem.remove();
           }
+
+          await displayWorks();
         } else {
           throw new Error("Erreur lors de la suppression");
         }
