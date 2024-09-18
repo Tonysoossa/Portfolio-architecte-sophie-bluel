@@ -84,91 +84,6 @@ const closeModalFunc = () => {
 
 // NOTE Add new works NOTE
 
-// const addWorkFunc = () => {
-//   editModal.style.display = "flex";
-//   addWorkDiv.style.display = "flex";
-//   workForm.style.display = "flex";
-//   addWorkBtn.style.display = "none";
-//   editModalUpperText.textContent = "Ajout photo";
-
-//   generateCategories();
-
-//   fileInput.addEventListener("change", (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onload = function (e) {
-//         previewImage.src = e.target.result;
-//         previewImage.style.display = "block";
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//     checkFormCompletion();
-//   });
-
-//   titleInput.addEventListener("keyup", checkFormCompletion);
-//   categorySelect.addEventListener("change", checkFormCompletion);
-
-//   workForm.addEventListener("click", async (e) => {
-//     e.preventDefault();
-//     checkFormCompletion();
-//     const formData = new FormData(workForm);
-
-//     try {
-//       const res = await fetch(`${API_ENDPOINT}/works`, {
-//         method: "POST",
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: formData,
-//       });
-
-//       if (!res.ok) throw new Error("Erreur lors de l'ajout de la photo");
-
-//       const newWork = await res.json();
-
-//       // Ajouter le nouveau travail à la galerie principale
-//       const gallery = document.querySelector(".gallery");
-//       const figureImg = document.createElement("figure");
-//       const displayImg = document.createElement("img");
-//       const imgTitle = document.createElement("figcaption");
-
-//       figureImg.id = newWork.id;
-//       displayImg.alt = newWork.title;
-//       displayImg.src = newWork.imageUrl;
-//       imgTitle.textContent = newWork.title;
-
-//       figureImg.appendChild(displayImg);
-//       figureImg.appendChild(imgTitle);
-//       gallery.appendChild(figureImg);
-
-//       // Ajouter le nouveau travail à la modale d'édition
-//       displayModalWorks([newWork]);
-
-//       closeModalFunc(); // Ferme la modale après ajout
-//     } catch (error) {
-//       console.error("Erreur lors de l'ajout de la photo:", error);
-//     }
-//   });
-// }; FIXFIXFIXFIX
-
-// const addWorks = () => {
-//   addWorkBtn.addEventListener("click", () => {
-//     addWorkFunc();
-//     goBackBtn.style.display = "flex";
-//     goBackBtn.classList.add("goBackBtn", "fa-solid", "fa-arrow-left");
-//     saveWorkBtn.style.display = "flex";
-//     workBox.style.display = "none";
-//   });
-
-//   goBackBtn.addEventListener("click", () => {
-//     goBackFunc();
-//     goBackBtn.style.display = "none";
-//     saveWorkBtn.style.display = "none";
-//     workBox.style.display = "flex";
-//   });
-// };FIXFIXFIXFIX
-
 const handleAddWork = () => {
   // Fonction pour afficher la modale d'ajout
   const showAddWorkModal = () => {
@@ -260,14 +175,13 @@ const handleAddWork = () => {
 
       figureImg.id = newWork.id;
       displayImg.alt = newWork.title;
-      displayImg.src = newWork.imageUrl; // Assure-toi que newWork contient l'URL de l'image
+      displayImg.src = newWork.imageUrl; 
       imgTitle.textContent = newWork.title;
 
       figureImg.appendChild(displayImg);
       figureImg.appendChild(imgTitle);
       gallery.appendChild(figureImg);
 
-      // Ajouter le nouveau travail à la modale d'édition
       displayModalWorks([newWork]);
 
       closeAndReset(); // Ferme la modale après ajout
@@ -326,6 +240,7 @@ const displayModalWorks = (works) => {
             1
           );
           displayWorks(works);
+          
         } else {
           throw new Error("Erreur lors de la suppression");
         }
