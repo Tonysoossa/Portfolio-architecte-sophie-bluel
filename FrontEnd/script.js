@@ -25,6 +25,7 @@ const gallery = document.querySelector(".gallery");
 // NOTE Gestion des œuvres NOTE
 
 export const displayWorks = (works) => {
+  gallery.innerHTML = "";
   works.forEach((el) => {
     const figureImg = document.createElement("figure");
     const displayImg = document.createElement("img");

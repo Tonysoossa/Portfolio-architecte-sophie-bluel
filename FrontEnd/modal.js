@@ -169,7 +169,6 @@ const closeModalFunc = () => {
 //   });
 // };FIXFIXFIXFIX
 
-
 const handleAddWork = () => {
   // Fonction pour afficher la modale d'ajout
   const showAddWorkModal = () => {
@@ -278,7 +277,6 @@ const handleAddWork = () => {
   });
 };
 
-
 // NOTE display works and generates categories NOTE
 const displayModalWorks = (works) => {
   works.forEach((el) => {
@@ -323,7 +321,11 @@ const displayModalWorks = (works) => {
             mainGalleryItem.remove();
           }
 
-           displayWorks();
+          works.splice(
+            works.indexOf((el2) => el2.id == el.id),
+            1
+          );
+          displayWorks(works);
         } else {
           throw new Error("Erreur lors de la suppression");
         }
