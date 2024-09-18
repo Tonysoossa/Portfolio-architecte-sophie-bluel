@@ -83,35 +83,162 @@ const closeModalFunc = () => {
 };
 
 // NOTE Add new works NOTE
-const addWorkFunc = () => {
-  editModal.style.display = "flex";
-  addWorkDiv.style.display = "flex";
-  workForm.style.display = "flex";
-  addWorkBtn.style.display = "none";
-  editModalUpperText.textContent = "Ajout photo";
 
-  generateCategories();
+// const addWorkFunc = () => {
+//   editModal.style.display = "flex";
+//   addWorkDiv.style.display = "flex";
+//   workForm.style.display = "flex";
+//   addWorkBtn.style.display = "none";
+//   editModalUpperText.textContent = "Ajout photo";
 
-  fileInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
+//   generateCategories();
+
+//   fileInput.addEventListener("change", (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onload = function (e) {
+//         previewImage.src = e.target.result;
+//         previewImage.style.display = "block";
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//     checkFormCompletion();
+//   });
+
+//   titleInput.addEventListener("keyup", checkFormCompletion);
+//   categorySelect.addEventListener("change", checkFormCompletion);
+
+//   workForm.addEventListener("click", async (e) => {
+//     e.preventDefault();
+//     checkFormCompletion();
+//     const formData = new FormData(workForm);
+
+//     try {
+//       const res = await fetch(`${API_ENDPOINT}/works`, {
+//         method: "POST",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: formData,
+//       });
+
+//       if (!res.ok) throw new Error("Erreur lors de l'ajout de la photo");
+
+//       const newWork = await res.json();
+
+//       // Ajouter le nouveau travail à la galerie principale
+//       const gallery = document.querySelector(".gallery");
+//       const figureImg = document.createElement("figure");
+//       const displayImg = document.createElement("img");
+//       const imgTitle = document.createElement("figcaption");
+
+//       figureImg.id = newWork.id;
+//       displayImg.alt = newWork.title;
+//       displayImg.src = newWork.imageUrl;
+//       imgTitle.textContent = newWork.title;
+
+//       figureImg.appendChild(displayImg);
+//       figureImg.appendChild(imgTitle);
+//       gallery.appendChild(figureImg);
+
+//       // Ajouter le nouveau travail à la modale d'édition
+//       displayModalWorks([newWork]);
+
+//       closeModalFunc(); // Ferme la modale après ajout
+//     } catch (error) {
+//       console.error("Erreur lors de l'ajout de la photo:", error);
+//     }
+//   });
+// }; FIXFIXFIXFIX
+
+// const addWorks = () => {
+//   addWorkBtn.addEventListener("click", () => {
+//     addWorkFunc();
+//     goBackBtn.style.display = "flex";
+//     goBackBtn.classList.add("goBackBtn", "fa-solid", "fa-arrow-left");
+//     saveWorkBtn.style.display = "flex";
+//     workBox.style.display = "none";
+//   });
+
+//   goBackBtn.addEventListener("click", () => {
+//     goBackFunc();
+//     goBackBtn.style.display = "none";
+//     saveWorkBtn.style.display = "none";
+//     workBox.style.display = "flex";
+//   });
+// };FIXFIXFIXFIX
+
+
+const handleAddWork = () => {
+  // Fonction pour afficher la modale d'ajout
+  const showAddWorkModal = () => {
+    editModal.style.display = "flex";
+    addWorkDiv.style.display = "flex";
+    workForm.style.display = "flex";
+    addWorkBtn.style.display = "none";
+    editModalUpperText.textContent = "Ajout photo";
+    goBackBtn.style.display = "flex";
+    goBackBtn.classList.add("goBackBtn", "fa-solid", "fa-arrow-left");
+    saveWorkBtn.style.display = "flex";
+    workBox.style.display = "none";
+
+    generateCategories();
+
+    // Prévisualisation de l'image lors du changement de fichier
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          previewImage.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+      checkFormCompletion();
+    });
+
+    titleInput.addEventListener("keyup", checkFormCompletion);
+    categorySelect.addEventListener("change", checkFormCompletion);
+  };
+
+  // Fonction pour fermer la modale et revenir à la vue principale
+  const closeAndReset = () => {
+    workForm.reset();
+    previewImage.style.display = "none";
+    editModal.style.display = "none";
+    addWorkBtn.style.display = "flex";
+    addWorkDiv.style.display = "none";
+    workForm.style.display = "none";
+    removeClassFromSingleEl(body, "body-shadow");
+    editModalUpperText.textContent = "Galerie photo";
+    goBackBtn.style.display = "none";
+    removeClassFromSingleEl(saveWorkBtn, "save-work-btn-completed");
+    workBox.style.display = "flex";
+  };
+
+  // Gestion du clic sur le bouton "Ajouter une photo"
+  addWorkBtn.addEventListener("click", showAddWorkModal);
+
+  // Gestion du clic sur le bouton "Retour"
+  goBackBtn.addEventListener("click", closeAndReset);
+
+  // Gestion du clic sur le bouton "Valider" pour ajouter un travail
+  saveWorkBtn.addEventListener("click", async (e) => {
+    e.preventDefault(); // Empêche le rechargement de la page
+    checkFormCompletion();
+
+    // Crée l'objet FormData pour inclure les données du formulaire et le fichier
+    const formData = new FormData();
+    formData.append("title", titleInput.value);
+    formData.append("category", categorySelect.value);
+
+    // Ajoute l'image au FormData si un fichier est sélectionné
+    const file = fileInput.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        previewImage.src = e.target.result;
-        previewImage.style.display = "block";
-      };
-      reader.readAsDataURL(file);
+      formData.append("image", file);
     }
-    checkFormCompletion();
-  });
-
-  titleInput.addEventListener("keyup", checkFormCompletion);
-  categorySelect.addEventListener("change", checkFormCompletion);
-
-  workForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    checkFormCompletion();
-    const formData = new FormData(workForm);
 
     try {
       const res = await fetch(`${API_ENDPOINT}/works`, {
@@ -119,10 +246,10 @@ const addWorkFunc = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+        body: formData, // Envoie le FormData avec l'image et les autres champs
       });
 
-      if (!res.ok) throw new Error("Erreur lors de l'ajout de la photo");
+      if (!res.ok) throw new Error("Erreur lors de l'ajout du travail");
 
       const newWork = await res.json();
 
@@ -134,7 +261,7 @@ const addWorkFunc = () => {
 
       figureImg.id = newWork.id;
       displayImg.alt = newWork.title;
-      displayImg.src = newWork.imageUrl;
+      displayImg.src = newWork.imageUrl; // Assure-toi que newWork contient l'URL de l'image
       imgTitle.textContent = newWork.title;
 
       figureImg.appendChild(displayImg);
@@ -144,29 +271,13 @@ const addWorkFunc = () => {
       // Ajouter le nouveau travail à la modale d'édition
       displayModalWorks([newWork]);
 
-      closeModalFunc(); // Ferme la modale après ajout
+      closeAndReset(); // Ferme la modale après ajout
     } catch (error) {
-      console.error("Erreur lors de l'ajout de la photo:", error);
+      console.error("Erreur lors de l'ajout du travail:", error);
     }
   });
 };
 
-const addWorks = () => {
-  addWorkBtn.addEventListener("click", () => {
-    addWorkFunc();
-    goBackBtn.style.display = "flex";
-    goBackBtn.classList.add("goBackBtn", "fa-solid", "fa-arrow-left");
-    saveWorkBtn.style.display = "flex";
-    workBox.style.display = "none";
-  });
-
-  goBackBtn.addEventListener("click", () => {
-    goBackFunc();
-    goBackBtn.style.display = "none";
-    saveWorkBtn.style.display = "none";
-    workBox.style.display = "flex";
-  });
-};
 
 // NOTE display works and generates categories NOTE
 const displayModalWorks = (works) => {
@@ -212,7 +323,7 @@ const displayModalWorks = (works) => {
             mainGalleryItem.remove();
           }
 
-          await displayWorks();
+           displayWorks();
         } else {
           throw new Error("Erreur lors de la suppression");
         }
@@ -249,5 +360,6 @@ const checkFormCompletion = () => {
 };
 
 // NOTE Function calls NOTE
-addWorks();
+// addWorks();
 editing();
+handleAddWork();
